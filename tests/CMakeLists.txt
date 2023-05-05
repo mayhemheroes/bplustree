@@ -1,6 +1,7 @@
 set(TEST_NAME ${PROJECT_NAME}_test)
 set(COVR_NAME ${PROJECT_NAME}_coverage)
 set(DEMO_NAME ${PROJECT_NAME}_demo)
+set(FUZZ_NAME ${PROJECT_NAME}_fuzzable)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
@@ -19,4 +20,14 @@ else()
         add_executable(${DEMO_NAME} ${SRC_LIST})
         set(CMAKE_C_FLAGS "-O2 -Wall -Werror -Wextra")
         target_link_libraries(${DEMO_NAME} ${LIB_BPLUSTREE_NAME})
+endif()
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+	set(SRC_LIST bplustree_fuzzable.c)
+	add_executable(${FUZZ_NAME} ${SRC_LIST})
+	target_compile_options(${FUZZ_NAME} PUBLIC -fsanitize=fuzzer)
+	target_link_options(${FUZZ_NAME} PUBLIC -fsanitize=fuzzer)
+	target_link_libraries(${FUZZ_NAME} ${LIB_BPLUSTREE_NAME})
+else()
+	message(WARNING "Clang needed for fuzzer integration")
 endif()
