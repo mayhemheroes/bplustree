@@ -10,7 +10,7 @@ image: ghcr.io/ladylandshark/bplustree:latest
 # Testsuite info
 testsuite:
 #  - https://mayhem.forallsecure.com/ladylandshark/bplustree/testsuite.tar
-  - file://corpus
+  - file://mayhem/corpus
 
 
 # List of commands used to test the target
